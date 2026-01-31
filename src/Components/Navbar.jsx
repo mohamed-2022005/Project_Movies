@@ -1,6 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { navbarStyles, navbarCSS } from "../assets/dummyStyles";
-import { Calendar, Clapperboard, Film, Home, Mail, Ticket, LogOut, User, X, Menu } from "lucide-react";
+import {
+  Calendar,
+  Clapperboard,
+  Film,
+  Home,
+  Mail,
+  Ticket,
+  LogOut,
+  User,
+  X,
+  Menu
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
@@ -10,14 +21,12 @@ const Navbar = () => {
   const [userEmail, setUserEmail] = useState("");
   const menuRef = useRef(null);
 
-  // Smooth scroll effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Authentication Logic from LocalStorage
   const readAuthFromStorage = () => {
     const json = localStorage.getItem("cine_auth");
     if (json) {
@@ -30,8 +39,10 @@ const Navbar = () => {
     }
 
     const simpleFlag = localStorage.getItem("isLoggedIn");
-    const email = localStorage.getItem("userEmail") || localStorage.getItem("cine_user_email");
-    
+    const email =
+      localStorage.getItem("userEmail") ||
+      localStorage.getItem("cine_user_email");
+
     if (simpleFlag === "true") {
       setIsLoggedIn(true);
       setUserEmail(email || "");
@@ -51,7 +62,11 @@ const Navbar = () => {
   useEffect(() => {
     readAuthFromStorage();
     const onStorage = (e) => {
-      if (["cine_auth", "isLoggedIn", "userEmail", "cine_user_email"].includes(e.key)) {
+      if (
+        ["cine_auth", "isLoggedIn", "userEmail", "cine_user_email"].includes(
+          e.key
+        )
+      ) {
         readAuthFromStorage();
       }
     };
@@ -59,7 +74,6 @@ const Navbar = () => {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  // Menu visibility and accessibility
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768 && isMenuOpen) {
@@ -78,13 +92,13 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const handleLogout = () => {
-    localStorage.removeItem('cine_auth');
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('cine_user_email');
+    localStorage.removeItem("cine_auth");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("cine_user_email");
     setIsLoggedIn(false);
     setUserEmail("");
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   const navItems = [
@@ -92,13 +106,19 @@ const Navbar = () => {
     { id: "movies", label: "Movies", icon: Film, path: "/movies" },
     { id: "releases", label: "Releases", icon: Calendar, path: "/releases" },
     { id: "contact", label: "Contact", icon: Mail, path: "/contact" },
-    { id: "bookings", label: "Bookings", icon: Ticket, path: "/bookings" },
+    { id: "bookings", label: "Bookings", icon: Ticket, path: "/bookings" }
   ];
 
   return (
-    <nav className={`${navbarStyles.nav.base} ${isScrolled ? navbarStyles.nav.scrolled : navbarStyles.nav.notScrolled}`}>
+    <nav
+      className={`${navbarStyles.nav.base} ${
+        isScrolled
+          ? navbarStyles.nav.scrolled
+          : navbarStyles.nav.notScrolled
+      }`}
+    >
       <div className={navbarStyles.container}>
-        {/* LOGO SECTION */}
+        {/* LOGO */}
         <div className={navbarStyles.logoContainer}>
           <div className={navbarStyles.logoIconContainer}>
             <Clapperboard className={navbarStyles.logoIcon} />
@@ -117,7 +137,11 @@ const Navbar = () => {
                     to={item.path}
                     end
                     className={({ isActive }) =>
-                      `${navbarStyles.desktopNavLink.base} ${isActive ? navbarStyles.desktopNavLink.active : navbarStyles.desktopNavLink.inactive}`
+                      `${navbarStyles.desktopNavLink.base} ${
+                        isActive
+                          ? navbarStyles.desktopNavLink.active
+                          : navbarStyles.desktopNavLink.inactive
+                      }`
                     }
                   >
                     <Icon className={navbarStyles.desktopNavIcon} />
@@ -131,34 +155,48 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* AUTH SECTION (Right Side) */}
+        {/* AUTH */}
         <div className={navbarStyles.rightSection}>
           <div className={navbarStyles.authSection}>
             <div className={navbarStyles.desktopAuth}>
               {isLoggedIn ? (
-                <button title={userEmail || "Logout"} onClick={handleLogout} className={navbarStyles.logoutButton}>
+                <button
+                  title={userEmail || "Logout"}
+                  onClick={handleLogout}
+                  className={navbarStyles.logoutButton}
+                >
                   <LogOut className={navbarStyles.authIcon} />
                   <span>Logout</span>
                 </button>
               ) : (
-                <a href="/login" className={navbarStyles.loginButton}>
+                <NavLink
+                  to="/login"
+                  className={navbarStyles.loginButton}
+                >
                   <User className={navbarStyles.authIcon} />
                   <span>Login</span>
-                </a>
+                </NavLink>
               )}
             </div>
           </div>
 
-          {/* MOBILE MENU TOGGLE */}
+          {/* MOBILE TOGGLE */}
           <div className={navbarStyles.mobileMenuToggle}>
-            <button onClick={() => setIsMenuOpen((s) => !s)} className={navbarStyles.mobileMenuButton}>
-              {isMenuOpen ? <X className={navbarStyles.mobileMenuIcon} /> : <Menu className={navbarStyles.mobileMenuIcon} />}
+            <button
+              onClick={() => setIsMenuOpen((s) => !s)}
+              className={navbarStyles.mobileMenuButton}
+            >
+              {isMenuOpen ? (
+                <X className={navbarStyles.mobileMenuIcon} />
+              ) : (
+                <Menu className={navbarStyles.mobileMenuIcon} />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* MOBILE MENU PANEL */}
+      {/* MOBILE MENU */}
       {isMenuOpen && (
         <div ref={menuRef} className={navbarStyles.mobileMenuPanel}>
           <div className={navbarStyles.mobileMenuItems}>
@@ -171,35 +209,48 @@ const Navbar = () => {
                   end
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `${navbarStyles.mobileNavLink.base} ${isActive ? navbarStyles.mobileNavLink.active : navbarStyles.mobileNavLink.inactive}`
+                    `${navbarStyles.mobileNavLink.base} ${
+                      isActive
+                        ? navbarStyles.mobileNavLink.active
+                        : navbarStyles.mobileNavLink.inactive
+                    }`
                   }
                 >
                   <Icon className={navbarStyles.mobileNavIcon} />
-                  <span className={navbarStyles.mobileNavText}>{item.label}</span>
+                  <span className={navbarStyles.mobileNavText}>
+                    {item.label}
+                  </span>
                 </NavLink>
               );
             })}
 
-            {/* MOBILE AUTH SECTION */}
             <div className={navbarStyles.mobileAuthSection}>
               {isLoggedIn ? (
                 <button
-                  onClick={() => { setIsMenuOpen(false); handleLogout(); }}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleLogout();
+                  }}
                   className={navbarStyles.mobileLogoutButton}
                 >
                   <LogOut className={navbarStyles.mobileAuthIcon} />
                   <span>Logout</span>
                 </button>
               ) : (
-                <a href="/login" className={navbarStyles.mobileLoginButton} onClick={() => setIsMenuOpen(false)}>
+                <NavLink
+                  to="/login"
+                  className={navbarStyles.mobileLoginButton}
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   <User className={navbarStyles.mobileAuthIcon} />
                   <span>Login</span>
-                </a>
+                </NavLink>
               )}
             </div>
           </div>
         </div>
       )}
+
       <style jsx>{navbarCSS}</style>
     </nav>
   );
