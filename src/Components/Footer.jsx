@@ -5,6 +5,7 @@ import {
     Facebook, Twitter, Instagram, Youtube,
     Mail, Phone, MapPin, ArrowUp
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -54,7 +55,6 @@ const Footer = () => {
                 <div className={footerStyles.bgGlow2}></div>
             </div>
 
-            {/* Floating icons animation layer */}
             <div className={footerStyles.floatingIconsContainer}>
                 {[...Array(12)].map((_, i) => {
                     const IconComponent = floatingIcons[i % floatingIcons.length];
@@ -81,7 +81,7 @@ const Footer = () => {
 
             <div className={footerStyles.mainContainer}>
                 <div className={footerStyles.gridContainer}>
-                    {/* COLUMN 1: BRAND SECTION */}
+                    {/* BRAND */}
                     <div className={footerStyles.brandContainer}>
                         <div className={footerStyles.brandLogoContainer}>
                             <div className="relative flex items-center gap-3">
@@ -91,10 +91,7 @@ const Footer = () => {
                                         <Clapperboard className={footerStyles.logoIcon} />
                                     </div>
                                 </div>
-                                <h2
-                                    style={{ fontFamily: "Monoton, cursive" }}
-                                    className={footerStyles.brandTitle}
-                                >
+                                <h2 style={{ fontFamily: "Monoton, cursive" }} className={footerStyles.brandTitle}>
                                     Cine <span className={footerStyles.brandTitleWhite}>Verse</span>
                                 </h2>
                             </div>
@@ -104,12 +101,7 @@ const Footer = () => {
                             and exclusive content.
                         </p>
                         <div className={footerStyles.socialContainer}>
-                            {[
-                                { Icon: Facebook },
-                                { Icon: Twitter },
-                                { Icon: Instagram },
-                                { Icon: Youtube }
-                            ].map(({ Icon }, index) => (
+                            {[Facebook, Twitter, Instagram, Youtube].map((Icon, index) => (
                                 <a href="#" key={index} className={footerStyles.socialLink}>
                                     <Icon className={footerStyles.socialIcon} />
                                 </a>
@@ -117,7 +109,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* COLUMN 2: EXPLORE LINKS */}
+                    {/* EXPLORE */}
                     <div>
                         <h3 className={footerStyles.sectionHeader}>
                             <div className={footerStyles.sectionDot} />
@@ -126,16 +118,16 @@ const Footer = () => {
                         <ul className={footerStyles.linksList}>
                             {links.map((link) => (
                                 <li key={link.label}>
-                                    <a href={link.href} className={footerStyles.linkItem}>
+                                    <Link to={link.href} className={footerStyles.linkItem}>
                                         <span className={footerStyles.linkDot} />
                                         {link.label}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* COLUMN 3: GENRES LINKS */}
+                    {/* GENRES */}
                     <div>
                         <h3 className={footerStyles.sectionHeader}>
                             <div className={footerStyles.sectionDot} />
@@ -144,16 +136,16 @@ const Footer = () => {
                         <ul className={footerStyles.linksList}>
                             {genrelinks.map((link) => (
                                 <li key={link.label}>
-                                    <a href={link.href} className={footerStyles.linkItem}>
+                                    <Link to={link.href} className={footerStyles.linkItem}>
                                         <span className={footerStyles.linkDot} />
                                         {link.label}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* COLUMN 4: CONTACT INFO */}
+                    {/* CONTACT */}
                     <div>
                         <h3 className={footerStyles.sectionHeader}>
                             <div className={footerStyles.sectionDot} />
@@ -164,13 +156,13 @@ const Footer = () => {
                                 <div className={footerStyles.contactIconContainer}>
                                     <Mail className={footerStyles.contactIcon} />
                                 </div>
-                                <span className={footerStyles.contactText}>contact@hexagonservices.com</span>
+                                <span className={footerStyles.contactText}>contact@mohamedservices.com</span>
                             </li>
                             <li className={footerStyles.contactItem}>
                                 <div className={footerStyles.contactIconContainer}>
                                     <Phone className={footerStyles.contactIcon} />
                                 </div>
-                                <span className={footerStyles.contactText}>+91 8299431275</span>
+                                <span className={footerStyles.contactText}>+201148836948</span>
                             </li>
                             <li className={footerStyles.contactItem}>
                                 <div className={footerStyles.contactIconContainer}>
@@ -182,23 +174,20 @@ const Footer = () => {
                     </div>
                 </div>
 
-
-                {/* DIVIDER */}
                 <div className={footerStyles.divider}>
                     <div className={footerStyles.dividerIconContainer}>
                         <Film className={footerStyles.dividerIcon} />
                     </div>
                 </div>
 
-                {/* BOTTOM BAR */}
                 <div className={footerStyles.bottomBar}>
                     <div className={footerStyles.designedBy}>
                         <span className={footerStyles.designedByText}>Designed by</span>
                         <a
                             href="https://portfolio-me-xi-seven.vercel.app/"
                             target="_blank"
-                            className={footerStyles.designedByLink}
                             rel="noopener noreferrer"
+                            className={footerStyles.designedByLink}
                         >
                             Mohamed Digital Services
                         </a>
@@ -214,7 +203,6 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* SCROLL TO TOP BUTTON */}
             {isVisible && (
                 <button onClick={scrollToTop} className={footerStyles.scrollTopButton}>
                     <ArrowUp className={footerStyles.scrollTopIcon} />
