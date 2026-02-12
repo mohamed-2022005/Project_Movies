@@ -13,6 +13,7 @@ import {
   Menu
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify"; // Added for consistency with Login
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -92,13 +93,22 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const handleLogout = () => {
+    // Show success toast exactly like LoginPage
+    toast.success("Goodbye! Hope to see you again soon.");
+
     localStorage.removeItem("cine_auth");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("cine_user_email");
+    localStorage.removeItem("currentUser");
+    
     setIsLoggedIn(false);
     setUserEmail("");
-    window.location.href = "/";
+    
+    // Delay redirect to match the show-time of the toast
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1500);
   };
 
   const navItems = [
@@ -117,6 +127,9 @@ const Navbar = () => {
           : navbarStyles.nav.notScrolled
       }`}
     >
+      {/* Container for toasts - theme dark to match login */}
+      <ToastContainer theme="dark" />
+
       <div className={navbarStyles.container}>
         {/* LOGO */}
         <div className={navbarStyles.logoContainer}>
